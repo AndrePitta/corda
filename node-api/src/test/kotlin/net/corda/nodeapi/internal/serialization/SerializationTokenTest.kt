@@ -20,7 +20,7 @@ class SerializationTokenTest {
 
     @Before
     fun setup() {
-        factory = SerializationFactoryImpl().apply { registerScheme(KryoServerSerializationScheme()) }
+        factory = SerializationFactoryImpl().apply { registerScheme(KryoServerSerializationScheme(this)) }
         context = SerializationContextImpl(KryoHeaderV0_1,
                 javaClass.classLoader,
                 AllWhitelist,
@@ -96,7 +96,7 @@ class SerializationTokenTest {
         val context = serializeAsTokenContext(tokenizableBefore)
         val testContext = this.context.withTokenContext(context)
 
-        val kryo: Kryo = DefaultKryoCustomizer.customize(CordaKryo(makeNoWhitelistClassResolver()))
+        val kryo: Kryo = DefaultKryoCustomizer.customize(CordaKryo(CordaClassResolver(factory, this.context)))
         val stream = ByteArrayOutputStream()
             Output(stream).use {
                 it.write(KryoHeaderV0_1.bytes)

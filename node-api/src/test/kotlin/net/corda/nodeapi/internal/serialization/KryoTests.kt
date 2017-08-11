@@ -29,7 +29,7 @@ class KryoTests {
 
     @Before
     fun setup() {
-        factory = SerializationFactoryImpl().apply { registerScheme(KryoServerSerializationScheme()) }
+        factory = SerializationFactoryImpl().apply { registerScheme(KryoServerSerializationScheme(this)) }
         context = SerializationContextImpl(KryoHeaderV0_1,
                 javaClass.classLoader,
                 AllWhitelist,
@@ -199,7 +199,7 @@ class KryoTests {
             }
         }
         Tmp()
-        val factory = SerializationFactoryImpl().apply { registerScheme(KryoServerSerializationScheme()) }
+        val factory = SerializationFactoryImpl().apply { registerScheme(KryoServerSerializationScheme(this)) }
         val context = SerializationContextImpl(KryoHeaderV0_1,
                 javaClass.classLoader,
                 AllWhitelist,
