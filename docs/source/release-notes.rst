@@ -6,6 +6,8 @@ Here are release notes for each snapshot release from M9 onwards.
 Unreleased
 ----------
 
+* Remove `IssuerFlow` as it allowed nodes to request arbitrary amounts of cash to be issued from any remote node.
+
 Milestone 14
 ------------
 
