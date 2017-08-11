@@ -50,7 +50,7 @@ data class GeneratedLedger(
     }
 
     val commandsGenerator: Generator<List<Pair<Command<*>, Party>>> by lazy {
-        Generator.replicatePoisson(4.0, commandGenerator(identities), true)
+        Generator.replicatePoisson(4.0, commandGenerator(identities), atLeastOne = true)
     }
 
     /**
@@ -122,7 +122,7 @@ data class GeneratedLedger(
      * Generates a regular non-issue transaction.
      * Invariants:
      *   * Input and output notaries must be one and the same.
-     *   * There must be at least one input or output state
+     *   * There must be at least one input and output state.
      */
     fun regularTransactionGenerator(inputNotary: Party, inputsToChooseFrom: List<StateAndRef<ContractState>>): Generator<Pair<WireTransaction, GeneratedLedger>> {
         val outputsGen = outputsGenerator.map { outputs ->
@@ -226,4 +226,4 @@ fun <A> pickOneOrMaybeNew(from: Collection<A>, generator: Generator<A>): Generat
 }
 
 val attachmentGenerator: Generator<Attachment> = Generator.bytes(16).map(::GeneratedAttachment)
-val outputsGenerator = Generator.replicatePoisson(3.0, stateGenerator, true)
+val outputsGenerator = Generator.replicatePoisson(3.0, stateGenerator, atLeastOne = true)
